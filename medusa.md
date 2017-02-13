@@ -1,0 +1,101 @@
+Title: Titans, Medusa, and Sisyphus 
+Date: 2014-03-12 
+Category: Solutions
+ 
+This is totally not a Greek post. It just looks that way.
+
+I need to preface this: what I am about to write below is fictitious.
+
+Sometimes we hop out of the pan and into the fire. It's kind of hard to see it coming. You were bored at one firm -- maybe your colleagues couldn't be bothered with SQL or vim. Or your excitement over the power to analyze logs with Ruby was met with blank stares.
+
+So you go on looking for the next challenge. And when you do, you say to your interviewers "I want to analyze, I want to be entrenched in technical issues I can investigate." You want to make sure you'll have a Linux command line, because, by God, only super humans and mutants could use a DOS prompt. And to make sure you're clear, you say, "I want to build tools to fix problems." What you mean is, you have a keen eye for manual, repetitive processes that are easily computable. This  is bread and butter stuff - to code these up is as rewarding as it gets. You get some good nods, and some words like "absolutely". Your attitude might be coming across great, and the pay is decent.
+
+So you get in. And things seem alright. Besides multiple (>4) broken request systems for access requests and applications. This is kind of normal for a firm of over 100,000 people. OK. I get it. And now I'm using Lotus. Notice, employers! It should be legally obligatory to disclose Lotus usage in the workplace, prior to employment! Lotus makes you realize you love Outlook, even though this is like saying you'd just love a rusty old car compared to walking 50 miles every day (but I love walking, so I try not to use my email client anymore).
+
+And then some interesting information starts trickling in. Here is one bit that spoke to me quite clearly. You hear that the main trading application used by trading desks can actually take down the entire network if it's left up too long on a workstation. "Balderdash," you say. And a colleague points you to an outage ticket where the Networks team indicates which workstation caused a network switch to fail because of Tibco messaging traffic.
+
+So there are a few things that come out of this. The very first, is that it becomes a function (nay, a duty) to check a webpage with a list of all traders logged into the system to see if they've had their PCs up for longer than 10 days. This is a poorly formatted HTML table which, for XP workstations, shows a "Started Time", and for Windows 7 workstations, shows a duration. This list is unsortable and cannot be filtered.
+
+There are about 40 individuals connected. There are a few other attributes per connected individual.
+
+And for each individual that you deem to be up for ten days or longer, you must call him or her and send him or her a mail indicating that he or she must restart his or her workstation.
+
+Thus, for an otherwise incredible problem, you must do a time-consuming, manual task that, if not done, could have catastrophic implications for the business you support.
+
+Well, this is, one might say, disturbing. But perhaps there is a silver lining here. Perhaps we can code this a bit to ease the pain.
+
+So I think, how can I get the uptimes of these Windows machines? Here are a couple of ideas:
+
+* Find the table in the application's database where this information is stored?
+* Use a workstation admin account to send an uptime command to a pre-specified list of machines, and capture the response?
+* Leverage something like SMS, one of Microsoft's environment reporting mechanisms, to retrieve this information?
+
+None of the above. For the first: there is no such table - this information is in the application server's memory and queryable only from the web page that displays it in the unorganized, inconsistent, unsortable, unfilterable format.
+
+The problem with the second? You need to raise a change request (which will take about 30 minutes) for each login to a workstation using a workstation admin account. Not viable.
+
+Problem with the third? The SMS implementation at the bank was halted half-way through, and no one has any idea what the status is (the exact same scenario with the migration off of Lotus).
+
+OK. I guess we will scrape the inconsistent data and wrangle it into something coherent. Oh yes, BeautifulSoup in Java, this one's for you. And JodaTime for that pesky date vs DAYS HH:MM:SS duration combination. Thank goodness for Java's big library set, considering I couldn't run a Python VM greater than version 2.5, or install any Perl modules, because of local rights restrictions on my workstation.
+
+At the end I had a tool where I could specify a few different things to flag for the list of connected users, and spit back a CSV report for quick perusal. Incorrect tibco version? Too many days of uptime? Here's your list of offending users.
+
+But we still need to chase them on a daily basis to restart their machines. Can we implement a machine restart policy? That was somewhere in the works, but no one knows where it stands now.
+
+OK.
+
+Fast forward a few months. I've been (morbidly) fascinated by one particular thing. There is this curious e-mail sent by an offshore team. In it is a list of 15 or so corporate bonds. Against each bond is a trader's name, his or her book, an error of some sort, an action item to be taken, and the team that can take that action. My colleague tells me, yeah, that used to be way worse. They didn't even use to collect the "bond failures" like that. You would just encounter them all the time, every day.
+
+What he means here by "bond failures" is failure to build PnL. For two desks of about 25 traders, there are about 15 to 20 bonds per day for which there are no risk or PnL metrics present in traders' books.
+
+Let's back up a bit. Prior to actually noticing the offshore team's email, I'd noticed something alarmingly constant.
+
+Setting up a bond for the first time in our system could sometimes take *days* of patch- and guess-work. On several occasions, I saw my colleague looking at a Bloomberg screen GRAB and mashing the bond static details into SQL inserts and updates. After lots of brute forcing it, you'd wait till the next day when a few systems bounced overnight so you could see if the pricing system could calculate a midprice.
+
+On several occasions, the following day you'd see an Exception in the pricer when attempting to calculate something like asset swap spread. But this was not any ordinary Exception: this was an Unknown Exception. Why? Because the asset swap spread class was a wrapper for a C++ library for doing the same, and when there was an incorrect input to a method in the C++ class, the C++ exception did not bubble up to its Java wrapper. And why was that the case? Because the folks that helped the pricing team compile the C++ libraries may have made a mistake in the compilation.
+
+I was floored. Here we are, making markets, with unverified data being written directly into a main SQL database during production hours. I tried to make the case that I should at least script something to lessen the frequent human error, and shorten the multiple hours required to do this. I was told no, then we would be liable if the progrma I wrote made a mistake. I did not argue, for one must choose one's battles. Surely, though, manual work was more mistake-prone? And the general idea of coding improvements, where did that go, especially in a problem so wanting for an automated solution?
+
+And here we have what is called "problems bumping into problems." This is a new phrase I have coined.
+
+So I changed gears. I speculated, there must be a process for providing feedback into the development cycle. A business analyst takes problem cases, assesses viability and ROI, and maybe gets the development team to implement said problem cases. I will be very brief here: the general feedback was that the business unit which most suffers from this event (an event that occurs at least once a week), does not have a business analyst. I will need to find another strategy.
+
+But wait a minute, let me back up a bit again. This is like The Sound and the Fury. I don't know where I am in time.
+
+Not all of the bond setups were *that* painful. That was just one class of approximately 8 to 10 classes of bond setup problems. The 8 to 10 classes of problems (also known by myself as "problem types") were borne of the 8 to 10 possible fail points in the bond setup process. To understand this, you must think of Medusa. As the apt reader remembers, you could not cut off one of the snake heads of Medusa and expect relief, for it would simply re-grow. But this analogy falls short in an important way, as well. These bond setup failures, when seen from the ground, *appear* so different that you cannot *see* that they originate from a singular, flawed, highly fixable process.
+
+When I begin detecting something like this, I need to know immediately: what is the shape of this beast? How big is it? What dark corners does it inhabit? To find out, I made a few phone calls and had a few meetings with a couple of operations teams - those that set up the bonds and those that do the PnL reconciliations. Coupled with a few conversations with development and my managers, the picture emerged.
+
+So here is Medusa's head.
+
+![multifail](../images/multifail.png)
+
+Now to be honest, the most unfortunate thing about this article is the very fact that I could not possibly explain to you all the ways in which each individual point here can, does, and will, fail, because of human error, system error, human delay, and system timing issues. Because you'd hit the back arrow real quick and then I couldn't tell you the silver lining here.
+
+The silver lining was that because the offshore operations team was capturing the errors over the last few months, I had one very essential and fun thing: I had data. They had been (very smartly) tracking all of the failures across about 60 spreadsheets. But, my god, How can we do reports across 60 spreadsheets? I'll make this point quick: pile them all into one spreadsheet, normalize them (clicking and dragging, clicking and dragging, clicking and dragging), convert to CSV, and use Apache's derby (did you think I could install another RDBMS on these workstations?) to load the CSV into a table and do some real SQL reporting. Screw pivot tables in Excel.
+
+```sql
+create table medusa_problem (isin varchar(32), tradername varchar(32), failcode varchar(32) ... );
+```
+
+Load up the data:
+
+```sql
+CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE (null,'MEDUSA_PROBLEM','medusa_problem_collated.csv',';',null,null,0);
+```
+
+So how bad is this? Just let the statistics speak for themselves. There were about 1,000 fails over a month, with an average of 18 per day. The worst offending trader had something like 128 fails in one month, through no fault of his own. Is trading hard? Yes. Is trading hard when you didn't know PnL on 128 bonds? Yeah.
+
+And it slowly became painfully apparent that I was wedged into a nasty situation. Most of pricing and PnL errors I'd been encountering over the months came from this process. IT and operations were the face of a blundering mess. The trading desk had a lot to say about this in emails and phone calls. I will spare you, the reader, from the wrath.
+
+But I thought, how do we *fix* this? Our days are Sisyphian. IT is perceived as incompetent. Operations teams are worn. Traders are endlessly distracted and missing risk and PnL.
+
+I thought, this thing needs visibility, exposure; I must show Medusa's head. So, I whipped together a PowerPoint with some of the more interesting statistics and showed my managers. They were convinced -- I suspect -- and said we should present this to one of the desk heads.
+
+I am now waiting for this next meeting.
+
+But there is a very real problem here. This bank is top-heavy. It took *three months* to hire *me*, because of the sluggish HR process. How would a resource-consuming, multi-organizational process get launched?
+
+I hope, for everyone's sake, that this catches some wind.
+ 
+*Update June, 2014:* This project has been floated to a "strategic cross-product workstream" where hopefully it will have funding and resources... and be completed somewhere in the next three years.

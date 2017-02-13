@@ -1,0 +1,41 @@
+Title: About
+
+A bit about me.
+
+I'm fascinated by programming and, increasingly, mathematics. At the age of 30, I wasn't exactly born into these fields, and I have a sharp and competing interest in human languages and teaching. What's better -- too many intersts, or too few? I'll go with the former.
+
+The programming side of things came into the picture about 10 years after my first shot at university. After wrestling with a small business in English as a Second Language for several years, I decided to switch gears and go into computers, but at a corporate angle. To make a long story a little less long, I ended up in what they call production roles. These started off as contracts of a few months, doing things like email migrations or bulk RAM upgrades. Having already spent several years out of the IT space, this felt pretty ungratifying.  Luckily though, these production roles eventually led to desktop support, where at least I was exclusively in the realm of software. I was, at this point, in the financial industry. I am grateful for this, because this led me to  trading systems support.
+
+
+But there was something I kept noticing. I have a silly example:
+
+If I'm looking for mayonnaise in the refrigerator, I'll almost never find it. I chalk this up to the mayonnaise being mostly white, sitting on a white shelf with a white background. Suffice it to say, pouring through gigabytes of log files looking for a security ID or a timestamp felt scarily similar. A lot of folks I've worked with were content to open up these files in Notepad or an editor of their choice, quickly skim through hundreds of lines, and lock onto the chunk of text they were intersted in.
+
+This might seem like a trivial task, but at least in my perception, I wasn't doing this as fast as the rest. And another thing started bothering me: what if I needed to find how many times something happened? Or what if I was looking a pattern of text?
+
+I started asking around. I remembered from the DOS days and my days playing with FreeBSD in my uncle's small business that you could use the asterisk as a wildcard. Were there text editors that allowed wildcard searches? These types of questions led me eventually to ``grep``.
+
+During one of my trade support roles, someone from another trading desk joined my team. This guy was sharp. I saw him pulling errors out of log files and emailing them to our operations teams to help them correct misbooked or errored trades. I saw him quickly isolating issues on distributed platforms where logs were spread across various servers. I saw him zipping up log files and transferring them to other servers, then deleting them from the original server in one string of text at the command line. I asked him what, precisely, he was doing this all in, and he said Perl. 
+
+The seed had already been planted maybe a year prior, but now it got all the soil and light it could ever want. I was hooked. At the time, the company I was in was in a rough patch, and it seemed many knowledgeable folks were jumping ship, and I did so myself.
+
+I decided to take a period of time off, during which several beautiful things happened. I met the woman who I would later marry. I completed a course in Cambridge English Language Teaching for Adults (CELTA). And I ploughed (painstakingly!) through every last line of [Learning Perl](http://amzn.com/1449303587). 
+
+I was a kid in a candy shop. Having seen the challenges of the workplace, all the potential of the programmatic approach was in clear, burning view. I have always said, emotion is the galvanization of memory. (I read all of [Breaking Out of Beginner's Spanish](http://amzn.com/1449303587) in one sitting, after receiving it from my unwitting mother one Christmas - but this is another story).
+
+I was also fascinated by the ESL teaching theory of the CELTA. A good friend of mine from Spain and I set out to do consultation work for ESL institutes. We fleshed out frameworks, cost structures, etc. I must say, this was some of the most intense spreadsheet work I'd ever encountered. The expressiveness and automation of Excel (I know... ironic) was a key ingredient in my recognizing the power of programming. My torment between human language and computer language was beginning to ferment.
+
+After a few spreadsheets of budget extrapolations, I realized that teaching ESL (or consultancy) would be a very different world, financially. While this was and is deeply disappointing, I had a new passion.
+
+It was back to IT in the financial industry. This time, though, I joined a software firm rather than a broker-dealer. I am very grateful for this role. Given the size of the company (around 300 employees) and my manager's approach, I was given a lot of freedom to experiment with technology to solve sometimes very challenging problems.
+
+I studied a lot of programming. As my SQL skill progressed, sometimes I almost felt my jaw drop as I realized the power of the language. I also grasped the benefit of object oriented programming, when certain programmatic approaches to solving problems involved more complex data structures or reusability. (I have to say this honestly, though, that Perl's object model, while perhaps technically not inferior, simply *felt* too clumsy to me. This lead me more toward Java and Python).
+
+Another interesting theme is emerging and has been for a couple of years now. It sits at the center of questions like these:
+
+* Is this an actual error, or does this error happen all the time?
+* In a pool of addresses, what's the likelihood of a client connecting to the addresses we'll be decommissioning?
+* How many trades in sector *x* do we do per day? Per week? Per year?
+* Can we see any correlation between trading activity and network stability?
+
+It seems like mathematics may be the next frontier. My fascination with Haskell is pushing that along. I once read a comment on reddit: ["Haskell is a gateway drug to math..."](http://4x.reddit.com/r/programming/comments/1te0m8/a_review_of_haskell/ce79az5)

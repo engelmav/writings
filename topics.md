@@ -1,0 +1,152 @@
+Title: Questions that want answers 
+Date: 2014-01-02
+Tags: ToDo
+Category: Questions 
+
+
+## Joining tables
+
+You have x tables that seat 4 people each. There are y guests. What are the largest tables you can make? What are different combinations of tables you can make that meet or exceed seating of y guests?
+
+## Connection probability
+
+You randomize between 3 addresses in an address pool. Two of these addresses are good, two are bad. You see people connecting consistently to one of the two classes of addresses. How many times should you see clients connect to the bad class before you think they *cannot* connect to the good class?
+
+## Budgeting when your price inputs are combinatorial
+
+I was trying to determine what my cousin's monthly income would look like. I realize this is an extremely common scenario. You have different products and services with different prices. How do you frame up what your income looks like? Hint: you have historical data. This sounds probabalistic.
+
+## Correlations
+
+I overheard an interesting conversation, a classic of its kind. Two policemen that patrolled different neighborhoods were talking about heat and crime. They were both damn sure that once the heat went up, the crime went up. This is, in a general way, pretty obvious. But there are so many correlations that, if formally assessed, are of great value for resourcing and earning. For example, in heat and crime correlation, the police departments would be able to measuredly hire more patrolmen when the time was necessary. This would also maximize neighborhood protection.
+
+So how do you do a correlation analysis? Between heat and crime, how can you see variance?
+
+I need some data to work with. Googling after a while I found [DC has crime data in CSV](http://data.dc.gov/).
+
+Let's toss around some of it from 2012. A quick
+
+```sql
+SELECT
+  Offense
+  ,count(offense) as Count
+FROM crime_incidents_2012_CSV
+GROUP BY offense;
+```
+gives us
+
+```
+ Offense                    | Count
+====================================
+ ARSON                      | 35
+ ASSAULT W/DANGEROUS WEAPON | 2295
+ BURGLARY                   | 3684
+ HOMICIDE                   | 88
+ MOTOR VEHICLE THEFT        | 2861
+ ROBBERY                    | 4265
+ SEX ABUSE                  | 259
+ THEFT F/AUTO               | 9459
+ THEFT/OTHER                | 12468
+```
+Now to group by some arbitrary segment of time (day, week, month). I have always wondered if this is what a time-series essentially is.
+
+I was using a python tool called querycsv. Problem is, since it is using an in-memory sqlite instance, and (I can't blame it) sqlite's string-to-date formatting options are quite limited, it seems I will need to load this into something more robust, like Postgres.
+
+I'll load up Postgres. Surely there's something out there to easily generate a schema and populate it with CSV data. [Of course there is](https://github.com/drh-stanford/csv2psql).
+
+One bit is quite helpful:
+
+```
+--datatype=name[,name]:type
+          sets the data type for field NAME to TYPE
+```
+
+Well, that didn't work. This handy script does not contain a date datatype. Frankly I cannot blame the guy for not implementing it - that is a whole other ball game.
+
+I use the popular and insanely handy postgres [copy](http://www.postgresql.org/docs/9.3/static/sql-copy.html) function.
+
+(What I am not explaining here - right now - is that I've spent an insane amount of time trying to get this to work - the details will bore anyone.) The short of it: I cut out only the columns of interset with [this beautiful set of csv tools](http://csvkit.readthedocs.org/en/latest/index.html).
+
+So finally:
+
+```sql
+create table crime2 (
+    reportdatetime date
+    , shift text
+    , offense text
+    , method text
+    , blocksiteaddress text
+    , blockxcoord text
+    , blockycoord text
+);
+```
+
+Look at those two last columns! Geocoordinates. Tempting, but ignoring for now. And yes we can convert that to a relevant and more efficient datatype later.
+
+And finally: ``\copy crime2 from /home/someuser/projects/crimecorr/modcrime with delimiter as ',' header csv;``
+
+So back to my original question - bucketing by some span of time, say, months:
+
+```sql
+select
+to_char(date_trunc('month',reportdatetime), 'YYYY-MM') as Month
+, count(*) as TotalCrime
+
+FROM
+crime2
+
+GROUP BY date_trunc('month',reportdatetime)
+ORDER BY date_trunc('month',reportdatetime) 
+```
+Looks like:
+```
+  month  | totalcrime 
+---------+------------
+ 2012-01 |       3021
+ 2012-02 |       2391
+ 2012-03 |       2523
+ 2012-04 |       2578
+ 2012-05 |       2963
+ 2012-06 |       3014
+ 2012-07 |       3236
+ 2012-08 |       3436
+ 2012-09 |       3088
+ 2012-10 |       3292
+ 2012-11 |       2893
+ 2012-12 |       2979
+(12 rows)
+```
+Definitely possible. Not much up and down I'm afraid. But I don't know how much variance is a "a lot" of variance and how much variance is "a little" variance. Maybe this is purely contextual.
+
+At any rate, we want weather for DC. Weather!
+
+This was more difficult to find, surprisingly. In the end, I found Wunderground does offer you data, in CSV, and has a clear URI command scheme [which you can see from the link to the data](http://www.wunderground.com/history/airport/KDCA/2012/1/1/CustomHistory.html?dayend=31&monthend=12&yearend=2012&req_city=NA&req_state=NA&req_statename=NA&format=1lkhlk).
+
+We make a Postgres database, use the ``copy`` command, and run a quick query:
+
+```sql
+SELECT TO_CHAR(DATE_TRUNC('month',wdate),'YYYY-MM') AS month, AVG(average) AS average
+FROM weather
+GROUP BY DATE_TRUNC('month',wdate)
+ORDER BY DATE_TRUNC('month',wdate);
+```
+
+which gives us
+
+```
+  month  |       average       
+---------+---------------------
+ 2012-01 | 40.9354838709677419
+ 2012-02 | 44.4827586206896552
+ 2012-03 | 57.0322580645161290
+ 2012-04 | 58.5666666666666667
+ 2012-05 | 71.6129032258064516
+ 2012-06 | 76.5333333333333333
+ 2012-07 | 84.1935483870967742
+ 2012-08 | 81.1612903225806452
+ 2012-09 | 72.4666666666666667
+ 2012-10 | 61.1935483870967742
+ 2012-11 | 46.9000000000000000
+ 2012-12 | 45.5483870967741935
+```
+http://www.uta.edu/faculty/sawasthi/Statistics/stbasic.html#Correlationsa
