@@ -5,7 +5,7 @@ author: Vincent Engelmann
 
 This was brutal - beware. But damn was it fun.
 
-In my previous role, our firm was moving datacenters. Among the myriad problems this poses, there was another one added:
+In a previous role, our firm was moving datacenters. Among the myriad problems this poses, there was another one added:
 we would porting our APIs and websites to a new, privately-owned block of IP addresses (with some new hostnames). The challenge was given to me to determine who uses our services (websites and APIs) and inform them that the service endpoint addresses would be changing.
 
 The problem was that, from the perspective of our applications, we could see *the fact that* people were connecting to our various services, but we could not tell over what circuits and to which external firewall they had connected to.
