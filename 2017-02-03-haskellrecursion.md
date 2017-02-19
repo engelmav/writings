@@ -1,9 +1,7 @@
-Title: Recursion
-Date: 2013-12-18 16:00
-Tags: haskell
-Category: Learning
-
-For me, it is more difficult to understand *how* a program executes recursively, not precisely that it *is* recursive.
+---
+title: Tracing recursion
+author: Vincent Engelmann
+---
 
 I found a way to write out the recursion execution in such a way that it was clearer to me.
 

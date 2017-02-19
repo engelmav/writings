@@ -1,9 +1,8 @@
-Title: A perl script to fix hundreds
-Date: 2013-12-26
-Category: Solutions 
-Tags: perl, monitoring, nagios, unix 
+---
+title: Fix Perl with Perl
+author: Vincent Engelmann
+---
 
-In a previous role, Nagios was used to monitor CPU, memory and diskspace across Linux and Windows servers.
 
 I overheard a colleague complaining that all of our Linux CPU checks were reporting "0%" at seemingly random times. I realized I wasn't quite sure how a Nagios agent would check CPU utilization, so I logged into one of the servers to investigate.
 

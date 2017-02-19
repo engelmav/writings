@@ -1,9 +1,7 @@
-Title: Higher Order Help
-Date: 2013-12-18 16:00
-Tags: haskell, hof 
-Category: Learning 
-
-To slightly expand on the explanation of [higher order functions from LYAH](http://learnyouahaskell.com/higher-order-functions):
+---
+title: Higher Order Help
+author: Vincent Engelmann
+---
 
 When you see the ``applyTwice`` function
 

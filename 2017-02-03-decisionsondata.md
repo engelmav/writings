@@ -1,7 +1,7 @@
-Title: A data-based decision
-Date: 2014-01-06 14:00
-Tags: programming, geo data, python, perl, 
-Category: Solutions 
+---
+title: GTFS Is Cool and You Should Use It.
+author: Vincent Engelmann
+---
 
 When my wife and I first moved in, we wanted to make sure we found a spot somewhere between my job and her job. At the time, she used her car to get in (suburbia) but I took the bus. If you've ever commuted in New Jersey, I'm sure I don't have to explain the pain! But I am a big proponent of reducing car usage as much as possible.
 
