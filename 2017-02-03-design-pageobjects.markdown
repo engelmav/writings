@@ -3,15 +3,13 @@ title: Taming WebApp Testing Complexity
 author: Vincent Engelmann
 ---
 
-The Page Object "pattern" gave us allowed us to clean up tests, enhance logging, and reuse utilities.
-
-I also couldn't help myself, and took advantage of Python 3.x's type annotations.
+The Page Object "pattern" allows us to clean up tests, enhance logging, reuse utilities, and tame complexity.
 
 ## Representing Pages
 
 The page representation consists of a `Page` superclass and any subclass with a name that resembles the page it describes. For example, if you have a login page, you can describe it as:
 
-```
+```python
 class Login(Page):
     def __init__():
         Page.__init(self)
@@ -30,7 +28,7 @@ class Login(Page):
 
 The `Page` superclass has the primary responsibility of ensuring all pages use the same `wdhelper` singleton for all Selenium actions.
 
-```
+```python
 class Page(object):
     def __init__():
         self.wdhelper wdhelper
@@ -43,7 +41,7 @@ The `WdHelper` singleton maintains the WebDriver session across all pages and el
 
 ## Representing DOM Elements
 
-```
+```python
 from selenium.webdriver.remote.webelement import WebElement
 from src.poutils import jsutil
 from src.poutils import wdhelper
@@ -79,7 +77,7 @@ class E(object):
 
 We used inheritance to make intent clearer and keep things maintainable:
 
-```
+```python
 class TextArea(E):
     def __init__(*args, **kwargs):
         E.__init__(self, *args, **kwargs)

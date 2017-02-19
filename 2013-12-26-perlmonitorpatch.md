@@ -34,7 +34,7 @@ my $command = "cd /home/username/nrpe/libexec && cp -f check_cpu check_cpu.20130
 
 After some wrangling, I managed to get Net:SSH2 to connect to the servers and deploy the Perl script:
 
-```
+```perl
 foreach my $server ( @serverlist ){
 	my $ssh = Net::SSH2->new( trace => -1 );
 	if ( !$ssh->connect($server) ) {

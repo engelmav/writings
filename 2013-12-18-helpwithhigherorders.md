@@ -30,7 +30,7 @@ And with list concatenation:
 
 will evaluate as
 
-```
+```haskell
 ... = (++ "secondParam") ((++ "secondParam") "firstParam")
     = (++ "secondParam") "firstParam secondParam"
     = "firstParam secondParam secondParam"
