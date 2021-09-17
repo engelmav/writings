@@ -162,5 +162,17 @@ class Solution {
 }
 ```
 
+Put the currently failing test case through this and see if it reveals anything.
+
+```
+[4,9,5]
+[9,4,9,8,4]
+```
+Got: [9,4,9,4], Expecting [4,9]
+
+
+
+
+
 Unfortunately we seem to be deriving the rules from results. That happens sometimes. It's frustrating but it can be worked through... with enough patience.
 
