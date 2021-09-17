@@ -152,6 +152,8 @@ Put the currently failing test case through this and see if it reveals anything.
 ```
 Got: [9,4,9,4], Expecting [4,9]
 
+It works! But how or why??
+
 Let's trace. If you're doing find_intersection([4, 5, 9], [4, 4, 8, 9, 9])
 
 
