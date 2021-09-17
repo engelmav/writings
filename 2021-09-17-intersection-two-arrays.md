@@ -78,5 +78,20 @@ So far my conclusion is, the result must contain the same number of repeats as a
 
 How can we modify our code to follow this pattern?
 
+I tried flipping the inner and outer arrays and that satisfies these two test cases. 
+
+```
+def find_intersection(nums1, nums2):
+    common_to_both = []
+    for number in nums2:
+        if number in nums1:
+            common_to_both.append(number)
+    return common_to_both
+```
+
+Let's run this in leetcode.
+
+
+
 Unfortunately we seem to be deriving the rules from results. That happens sometimes. It's frustrating but it can be worked through... with enough patience.
 
