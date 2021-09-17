@@ -110,56 +110,38 @@ What's the difference between what we got and what was expected?
 Each element in the result must appear as many times as it shows in both arrays
 ```
 
-This seems to contradict the teszt failure above. Or does it mean, appear the minimum between the two arrays? That would make more sense. Let's see how this guy did it:
+This seems to contradict the teszt failure above. Or does it mean, appear the minimum between the two arrays? That would make more sense. Let's see [how this guy did it](https://medium.com/@punitkmr/intersection-of-two-arrays-ii-ffb26f04dfd1) (this is the Python version):
 
 ```
-class Solution {
-    public int[] intersect(int[] nums1, int[] nums2) {
+def find_intersection(nums1, nums2):
+    i = 0
+    j = 0
 
-        int i = 0;
-        int j = 0;
-         
-        Arrays.sort(nums1);
-        Arrays.sort(nums2);
-         
-        List<Integer> result = new ArrayList<>();
-         
-        while (i < nums1.length && j < nums2.length) {
-            if (nums1[i] == nums2[j]) {
-                result.add(nums1[i]);
-                // go to next index
-                i++;
-                j++;
-            } else if (nums1[i] < nums2[j]){
-                // if the number at this index of the first array is smaller than
-                // the number at the index of the second array, only increment
-                // the index of the first array (i).
-                // In other words, walk forward the first array but not the second.
-                // Why?
-                i++;
-            } else {
-                // if the number at this index of the first array is NOT smaller than
-                // the number at the index of the second array, only increment
-                // the index of the SECOND array.
-                // Why?
-                j++;
-            }
-        }
-         
-        // Convert list to array
-        return listToArray(result);
-    }
-     
-    private int[] listToArray(List<Integer> list) {
-        int[] result = new int[list.size()];
-         
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i);
-        }
-         
-        return result;
-    }
-}
+    nums1.sort()
+    nums2.sort()
+
+    result = []
+
+    while i < len(nums1) and j < len(nums2):
+        if nums1[i] == nums2[j]:
+            result.append(nums1[i]);
+            # go to next index
+            i += 1
+            j += 1
+        elif nums1[i] < nums2[j]:
+            # if the number at this index of the first array is smaller than
+            # the number at the index of the second array, only increment
+            # the index of the first array (i).
+            # In other words, walk forward the first array but not the second.
+            # Why?
+            i += 1
+        else:
+            # if the number at this index of the first array is NOT smaller than
+            # the number at the index of the second array, only increment
+            # the index of the SECOND array.
+            # Why?
+            j += 1
+    return result
 ```
 
 Put the currently failing test case through this and see if it reveals anything.
@@ -169,7 +151,6 @@ Put the currently failing test case through this and see if it reveals anything.
 [9,4,9,8,4]
 ```
 Got: [9,4,9,4], Expecting [4,9]
-
 
 
 
