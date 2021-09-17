@@ -68,4 +68,15 @@ Got [2,2], Expecting [2]
 Got [2], Expecting [2,2]
 ```
 
+Let's verbalize what we're seeing.
+
+1st test case: When the first list has two 2s, and the second list has one 2, the test expects to see only one 2 (seems to reflect the number of 2s in the second list).
+
+2nd test case: When the first list has two 2s and the second list has two 2s, the test expects to see two 2s.
+
+So far my conclusion is, the result must contain the same number of repeats as are present in the second array.
+
+How can we modify our code to follow this pattern?
+
+Unfortunately we seem to be deriving the rules from results. That happens sometimes. It's frustrating but it can be worked through... with enough patience.
 
