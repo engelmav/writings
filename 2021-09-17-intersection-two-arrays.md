@@ -17,3 +17,38 @@ for number in nums1:
         common_to_both.append(number)
 ```
 
+First try.
+
+```
+    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        intersect = []
+        for item in nums1:
+            if item in nums2:
+                intersect.append(item)
+        return intersect
+```
+
+The above try causes this test case to fail:
+
+[1,2,2,1]
+[2]
+
+Got [2,2], Expecting [2]
+
+
+```
+    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        intersect = {}
+        for item in nums1:
+            if item in nums2:
+                intersect[item] = None
+        return list(intersect.keys())
+```
+
+The above try causes this test case to fail:
+
+[1,2,2,1]
+[2,2]
+
+Got [2], Expecting [2,2]
+
