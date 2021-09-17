@@ -152,7 +152,15 @@ Put the currently failing test case through this and see if it reveals anything.
 ```
 Got: [9,4,9,4], Expecting [4,9]
 
+Let's trace. If you're doing find_intersection([4, 5, 9], [4, 4, 8, 9, 9])
 
+
+nums1[0] = 4 with nums2[0] = 4, increment i and j, result.append(nums1[i]) => [4]
+nums1[1] = 5 with nums2[1] = 4, increment j
+nums1[1] = 5 with nums2[2] = 8, increment i
+nums1[2] = 9 with nums2[2] = 8, increment j
+nums1[2] = 9 with nums2[3] = 9, increment i and j, result.append(nums1[i]) => [4, 9]
+nums1[3] = ... the while condition is not satisfied, iteration stops.
 
 
 Unfortunately we seem to be deriving the rules from results. That happens sometimes. It's frustrating but it can be worked through... with enough patience.
