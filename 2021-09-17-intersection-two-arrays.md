@@ -164,6 +164,5 @@ Let's trace. If you're doing find_intersection([4, 5, 9], [4, 4, 8, 9, 9])
 5. nums1[2] = 9 with nums2[3] = 9, increment i and j, result.append(nums1[i]) => [4, 9]
 6. nums1[3] = ... the while condition is not satisfied, iteration stops.
 
-
-Unfortunately we seem to be deriving the rules from results. That happens sometimes. It's frustrating but it can be worked through... with enough patience.
+I agree and see that this _works_ but there is something I don't get. I don't know why it works. I think what I mean is I don't know how I would have come up with it myself.
 
