@@ -92,6 +92,23 @@ def find_intersection(nums1, nums2):
 Let's run this in leetcode.
 
 
+22/55 passed.
+
+```
+[4,9,5]
+[9,4,9,8,4]
+```
+Got: [9,4,9,4], Expecting [4,9]
+
+What's the difference between what we got and what was expected?
+
+* what we got is duplicated compared to the expected. But we know that duplicate answers are actually OK. There is a certain condition under which it's OK to have dupes, and anther condition under which it's not OK. What are those conditions?
+* Why did the program return [9,4,9,4]? It returned the first 9 because it 
+
+
+```
+Each element in the result must appear as many times as it shows in both arrays
+```
 
 Unfortunately we seem to be deriving the rules from results. That happens sometimes. It's frustrating but it can be worked through... with enough patience.
 
