@@ -115,12 +115,7 @@ This seems to contradict the teszt failure above. Or does it mean, appear the mi
 ```
 class Solution {
     public int[] intersect(int[] nums1, int[] nums2) {
-        
-     
-        if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
-            return new int[0];
-        }
-         
+
         int i = 0;
         int j = 0;
          
@@ -132,11 +127,21 @@ class Solution {
         while (i < nums1.length && j < nums2.length) {
             if (nums1[i] == nums2[j]) {
                 result.add(nums1[i]);
+                // go to next index
                 i++;
                 j++;
             } else if (nums1[i] < nums2[j]){
+                // if the number at this index of the first array is smaller than
+                // the number at the index of the second array, only increment
+                // the index of the first array (i).
+                // In other words, walk forward the first array but not the second.
+                // Why?
                 i++;
             } else {
+                // if the number at this index of the first array is NOT smaller than
+                // the number at the index of the second array, only increment
+                // the index of the SECOND array.
+                // Why?
                 j++;
             }
         }
