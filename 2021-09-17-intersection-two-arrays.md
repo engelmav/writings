@@ -52,3 +52,20 @@ The above try causes this test case to fail:
 
 Got [2], Expecting [2,2]
 
+That's weird. What's the difference between these two test cases?
+
+```
+[1,2,2,1]
+[2]
+
+Got [2,2], Expecting [2]
+```
+
+```
+[1,2,2,1]
+[2,2]
+
+Got [2], Expecting [2,2]
+```
+
+
